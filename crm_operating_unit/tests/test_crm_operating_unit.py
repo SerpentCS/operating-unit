@@ -2,9 +2,8 @@
 # © 2015 Eficent Business and IT Consulting Services S.L. -
 # Jordi Ballester Alomar
 # © 2015 Serpent Consulting Services Pvt. Ltd. - Sudhir Arya
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl.html).
+# License LGPL-3.0 or later (https://www.gnu.org/licenses/lgpl.html).
 from openerp.tests import common
-from openerp import netsvc
 
 
 class TestPurchaseOperatingUnit(common.TransactionCase):
@@ -14,7 +13,7 @@ class TestPurchaseOperatingUnit(common.TransactionCase):
         self.res_users_model = self.env['res.users']
         self.crm_lead_model = self.env['crm.lead']
         # Groups
-        self.grp_sale_user = self.env.ref('base.group_sale_manager')
+        self.grp_sale_mngr = self.env.ref('base.group_sale_manager')
         self.grp_user = self.env.ref('base.group_user')
         # Company
         self.company = self.env.ref('base.main_company')
@@ -23,11 +22,11 @@ class TestPurchaseOperatingUnit(common.TransactionCase):
         # B2C Operating Unit
         self.b2c = self.env.ref('operating_unit.b2c_operating_unit')
         # Create User 1 with Main OU
-        self.user1 = self._create_user('user_1', [self.grp_sale_user,
+        self.user1 = self._create_user('user_1', [self.grp_sale_mngr,
                                                   self.grp_user], self.company,
                                        [self.ou1])
         # Create User 2 with B2C OU
-        self.user2 = self._create_user('user_2', [self.grp_sale_user,
+        self.user2 = self._create_user('user_2', [self.grp_sale_mngr,
                                                   self.grp_user], self.company,
                                        [self.b2c])
         # Create CRM Leads
@@ -39,10 +38,10 @@ class TestPurchaseOperatingUnit(common.TransactionCase):
         """ Create a user. """
         group_ids = [group.id for group in groups]
         user = self.res_users_model.create({
-            'name': 'Chicago Purchase User',
+            'name': 'Test User',
             'login': login,
             'password': 'demo',
-            'email': 'chicago@yourcompany.com',
+            'email': 'test@yourcompany.com',
             'company_id': company.id,
             'company_ids': [(4, company.id)],
             'operating_unit_ids': [(4, ou.id) for ou in operating_units],
@@ -52,15 +51,16 @@ class TestPurchaseOperatingUnit(common.TransactionCase):
 
     def _create_crm_lead(self, uid, operating_unit):
         """Create a sale order."""
-        crm = self.crm_lead_model.sudo(uid).create({
+        crm = self.crm_lead_model.create({
             'name': 'CRM LEAD',
-            'operating_unit_id': operating_unit.id
+            'operating_unit_id': operating_unit.id,
         })
         return crm
 
-    def test_security(self):
+    def test_crm_lead(self):
         # User 2 is only assigned to B2C Operating Unit, and cannot
         # access CRM leads for Main Operating Unit.
+
         lead = self.crm_lead_model.sudo(self.user2.id).\
                 search([('id', '=', self.lead1.id),
                         ('operating_unit_id', '=', self.ou1.id)])
