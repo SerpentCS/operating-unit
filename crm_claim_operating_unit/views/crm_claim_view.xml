@@ -1,4 +1,7 @@
 <?xml version="1.0"?>
+<!-- Copyright 2015 Eficent Business and IT Consulting Services S.L.
+     Serpent Consulting Services Pvt. Ltd.
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl-3.0) -->
 <openerp>
     <data>
 
@@ -19,7 +22,7 @@
             <field name="inherit_id" ref="crm_claim.crm_case_claims_form_view"/>
             <field name="arch" type="xml">
                 <field name="date_deadline" position="after">
-                    <field name="operating_unit_id"/>
+                    <field name="operating_unit_id" options="{'no_create': True}"/>
                 </field>
             </field>
         </record>
