@@ -19,5 +19,4 @@
         "views/crm_claim_view.xml"
     ],
     'installable': True,
-    'active': False,
 }
