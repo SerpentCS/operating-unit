@@ -6,10 +6,10 @@
 from openerp.tests import common
 
 
-class TestPurchaseOperatingUnit(common.TransactionCase):
+class TestCrmOperatingUnit(common.TransactionCase):
 
     def setUp(self):
-        super(TestPurchaseOperatingUnit, self).setUp()
+        super(TestCrmOperatingUnit, self).setUp()
         self.res_users_model = self.env['res.users']
         self.crm_lead_model = self.env['crm.lead']
         # Groups
