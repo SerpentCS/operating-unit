@@ -12,7 +12,8 @@
         <field name="inherit_id" ref="crm.crm_case_form_view_leads"/>
         <field name="arch" type="xml">
             <field name="probability" position="before">
-                <field name="operating_unit_id" groups="operating_unit.group_multi_operating_unit" options="{'no_create': True}" domain = "[('company_id','=', company_id)]"/>            </field>
+                <field name="operating_unit_id" groups="operating_unit.group_multi_operating_unit" options="{'no_create': True}" domain = "[('company_id','=', company_id)]"/>
+            </field>
         </field>
         </record>
 
